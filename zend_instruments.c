@@ -118,7 +118,7 @@ static void zend_instruments_activate(void) {
 
     if (INI_INT("opcache.optimization_level")) {
         zend_string *optimizer = zend_string_init(
-	        ZEND_STRL("opcache.optimization_level"), 1);
+            ZEND_STRL("opcache.optimization_level"), 1);
         zend_long level = INI_INT("opcache.optimization_level");
         zend_string *value;
 
@@ -131,7 +131,7 @@ static void zend_instruments_activate(void) {
         value = zend_strpprintf(0, "0x%08X", (unsigned int) level);
 
         zend_alter_ini_entry(optimizer, value,
-	        ZEND_INI_SYSTEM, ZEND_INI_STAGE_ACTIVATE);
+            ZEND_INI_SYSTEM, ZEND_INI_STAGE_ACTIVATE);
 
         zend_string_release(optimizer);
         zend_string_release(value);
@@ -166,11 +166,11 @@ static int zend_instruments_exit(zend_execute_data *execute_data) {
 
 static void zend_instruments_setup(zend_op_array *ops) {
     zend_cfg cfg;
-	zend_basic_block *block;
+    zend_basic_block *block;
     zend_arena *arena;
     zend_op *opline, *end, *limit = ops->opcodes + ops->last;
     zend_instruments_relay_t *relays;
-	int i = 0;
+    int i = 0;
 
     if (!ops->function_name) {
         return;
@@ -197,13 +197,13 @@ static void zend_instruments_setup(zend_op_array *ops) {
             ZEND_RT_CONSTANTS : 0,
         &cfg);
 
-	for (block = cfg.blocks, i = 0; i < cfg.blocks_count; i++, block++) {
-		opline = ops->opcodes + block->start;
-		end = opline + block->len;
+    for (block = cfg.blocks, i = 0; i < cfg.blocks_count; i++, block++) {
+        opline = ops->opcodes + block->start;
+        end = opline + block->len;
 
-		if (!(block->flags & ZEND_BB_REACHABLE)) {
-			continue;
-		}
+        if (!(block->flags & ZEND_BB_REACHABLE)) {
+            continue;
+        }
 
         if ((block->flags & ZEND_BB_START)) {
             while (opline->opcode == ZEND_RECV ||
